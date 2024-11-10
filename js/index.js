@@ -17,6 +17,4 @@ function claculateSum() {
     return sum;
 }
 
-
-
 console.log(claculateSum())
