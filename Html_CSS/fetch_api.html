@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fetch Api's</title>
+  </head>
+  <body>
+    <button onclick="handleApi()">Get Data</button>
+    <div id="container"></div>
+
+    <script>
+      async function handleApi() {
+
+        // method 1
+        //   fetch("https://fakerapi.it/api/v1/persons")
+        //   .then(function(response) {
+        //       response.json()
+        //       .then(function(finalres) {
+        //         console.log(finalres)
+        //       })
+        //     })
+
+        // method - 2
+        const response = await fetch("https://fakerapi.it/api/v1/persons")
+        const Resjson = await response.json();
+        // console.log(data)
+        // document.getElementById('container').innerHTML = JSON.stringify(Resjson.data)
+        
+        const container = document.getElementById('container')
+        container.innerHTML = '';
+
+        Resjson.data.forEach(person => {
+          const fname = document.createElement('p')
+          fname.textContent = person.firstname;
+          container.appendChild(fname)
+        });
+      }
+    </script>
+  </body>
+</html>
