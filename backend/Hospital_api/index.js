@@ -1,18 +1,19 @@
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const express = require("express");
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt')
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
+const mongoose = require("mongoose");
 const app = express();
-const z = require('zod')
+const z = require("zod");
 const port = 3000;
 
-app.use(express.json()) // only when you use post body paramenter 
-app.use(bodyParser.urlencoded({extended:true}))
-app.use(cookieParser())
+app.use(express.json()); // only when you use post body paramenter
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
 
-app.get('/', (req, res) => {
-    res.send("Hello world");
+app.get("/", (req, res) => {
+  res.send("Hello world");
 });
 
 // middlewares => they are just callback funcions or modify the req & res to run before the final route handlers
@@ -40,15 +41,12 @@ app.get('/', (req, res) => {
 
 // const schema = z.array(z.number())
 
-// userSchema 
+// userSchema
 // {
 //  email: string => email validataon
 //  password: 6 letters
 //  country: "US" ,"INR"
 // }
-
-
-
 
 // app.post('/health_checkup', (req , res) => {
 
@@ -69,34 +67,33 @@ app.get('/', (req, res) => {
 //     })
 // })
 
-
 // User Authenticaion
 
 // zod implementation
 
-function validateInput(arr) {
-    const userSchema = z.object({
-        name: z.string(),
-        email: z.string().email(),
-        password: z.number().min(6),
-        country: z.literal("IN").or(z.literal("US")),
-        kidneys: z.array(z.number())
-    })
+// function validateInput(arr) {
+//   const userSchema = z.object({
+//     name: z.string(),
+//     email: z.string().email(),
+//     password: z.number().min(6),
+//     country: z.literal("IN").or(z.literal("US")),
+//     kidneys: z.array(z.number()),
+//   });
 
-    const result = userSchema.safeParse(arr)
-    console.log(result)
-    if (result.success) {
-        return {
-            success: true,
-            data: result.data
-        };
-    } else {
-        return {
-            success: false,
-            error: result.error
-        };
-    }
-}
+//   const result = userSchema.safeParse(arr);
+//   console.log(result);
+//   if (result.success) {
+//     return {
+//       success: true,
+//       data: result.data,
+//     };
+//   } else {
+//     return {
+//       success: false,
+//       error: result.error,
+//     };
+//   }
+// }
 
 // validateInput({
 //     name:"dev",
@@ -107,114 +104,151 @@ function validateInput(arr) {
 // })
 
 
-let users = [];
+// app.post("/register", function (req, res) {
+//   const response = validateInput(req.body);
+
+//   if (!response.success) {
+//     res.status(400).json({
+//       msg: "Check your Inputs",
+//     });
+//   }
+
+//   const { email, name, password, country, kidneys } = response.data;
+
+//   const hashedPassword = bcrypt.hash(password.toString(), 10);
+
+//   const user = { email, name, password: hashedPassword, country, kidneys };
+//   users.push(user);
+
+//   const token = jwt.sign({ user }, JWT_SECRET, { expiresIn: "1d" });
+
+//   res.cookie("token", token, { httpOnly: true });
+
+//   return res.status(201).json({
+//     success: "true",
+//     msg: "User registered successfully",
+//     token,
+//   });
+// });
+
+// let JWT_SECRET = "jdksajfjdsadfhsahjgdha";
+
+// function UserAuthentication(req, res, next) {
+//   const { token } = req.cookies;
+
+//   if (!token) {
+//     res.json({
+//       msg: "Token Undefined!",
+//     });
+//   }
+
+//   try {
+//     const decoded = jwt.verify(token, JWT_SECRET);
+//     req.user = decoded;
+//     next();
+
+//     console.log(decoded);
+//   } catch (error) {
+//     return res.status(403).json({ msg: "Invalid Token!" });
+//   }
+// }
+
+// app.post("/login", UserAuthentication, (req, res) => {
+//   const response = validateInput(req.body);
+
+//   if (!response.success) {
+//     res.json({
+//       msg: "Check your Inputs",
+//     });
+//   }
+
+//   const { email, password } = response.data;
+
+//   const user = users.find((u) => u.email === email);
+
+//   if (!user) {
+//     return res.status(404).json({ msg: "User not found" });
+//   }
+
+//   const isPasswordValid = bcrypt.compare(password, user.password);
+
+//   if (!isPasswordValid) {
+//     return res.status(401).json({ msg: "Invalid password" });
+//   }
+
+//   return res.status(200).json({ msg: "Logged in successfully" });
+// });
+
+// app.get("/profile", UserAuthentication, (req, res) => {
+//   res.json({ msg: `Welcome, ${req.user.name}` });
+// });
+
+// app.post("/logout", (req, res) => {
+//   const userId = req.users.userId;
+
+//   res.clearCookie("token");
+
+//   // res.cookie("token" , null, {
+//   //     expires: new Date(Date.now()),
+//   //     httpOnly: true
+//   // })
+//   res.status(200).json({
+//     msg: `User with ID ${userId} logged out successfully`,
+//   });
+// });
+
+// app.get("/users", (req, res) => {
+//   return res.status(200).json({ users });
+// });
 
 
-app.post('/register' , function(req , res) {
-  
-    const response = validateInput(req.body);
+// User Authentication with db
 
-    if(!response.success) {
-        res.status(400).json({
-            msg: "Check your Inputs"
-        })
-    }
 
-    const { email, name, password, country, kidneys } = response.data;
-
-    const hashedPassword = bcrypt.hash(password.toString() , 10)
-
-    const user = { email, name, password: hashedPassword, country, kidneys };
-    users.push(user);
-
-    const token = jwt.sign({user} , JWT_SECRET, {expiresIn: '1d'})
-
-    res.cookie('token' , token , {httpOnly: true});
-
-    return res.status(201).json({
-        success:"true",
-        msg: "User registered successfully",
-        token
-    });
-    
+const userSchema = mongoose.Schema({
+    name: String,
+    email:String,
+    password: String
 })
+const User = mongoose.model('User' , userSchema)
 
-let JWT_SECRET="jdksajfjdsadfhsahjgdha"
-
-function UserAuthentication(req , res , next) {
+app.post('/signup' , async (req , res) => {
     
-    const {token} = req.cookies;
+    const {name , email , password} = req.body;
 
-    if(!token){
-        res.json({
-            msg: "Token Undefined!"
-        })
-    }
 
     try {
-        const decoded = jwt.verify(token , JWT_SECRET)
-        req.user = decoded;
-        next()
-    
-        console.log(decoded)
-    } catch (error) {
-        return res.status(403).json({ msg: "Invalid Token!" });
-    }
-
-
-}
-
-
-app.post('/login' ,UserAuthentication , (req , res) => {
-    const response = validateInput(req.body)
-
-    if(!response.success) {
-        res.json({
-            msg: "Check your Inputs"
+        const existingUser = await User.findOne({ email });;
+        if(existingUser) {
+            return res.status(402).json({msg: "User already exits"})
+        }
+        const user = new User({
+            name,
+            email,
+            password
         })
+        await user.save();
+        res.json({
+            msg: "User created successfully"
+        })
+    } catch (error) {
+        console.error("Error creating user:", error);
+        res.status(500).json({ msg: "Internal server error" });
     }
-    
-    const {email , password } = response.data
-
-    const user = users.find((u) => u.email === email)
-
-    if (!user) {
-        return res.status(404).json({ msg: "User not found" });
-    }
-
-    const isPasswordValid = bcrypt.compare(password ,user.password)
-
-    if (!isPasswordValid) {
-        return res.status(401).json({ msg: "Invalid password" });
-    }
-
-    return res.status(200).json({ msg: "Logged in successfully" });
 })
 
-app.get('/profile', UserAuthentication, (req, res) => {
-    res.json({ msg: `Welcome, ${req.user.name}` });
-});
 
-app.post('/logout' , (req , res) => {
 
-    const userId = req.users.userId;
 
-    res.clearCookie('token')
+mongoose
+  .connect("mongodb://127.0.0.1:27017/cohortDB")
+  .then(() => {
+    console.log("DB connected successfully");
 
-    // res.cookie("token" , null, {
-    //     expires: new Date(Date.now()),
-    //     httpOnly: true
-    // })
-    res.status(200).json({
-        msg: `User with ID ${userId} logged out successfully`
-
-    })
-})
-
-app.get('/users' , (req , res) => {
-    return res.status(200).json({users})
-})
-
-app.listen(port, () => {
-    console.log(`Server running at port ${port}`);
-});
+    app.listen(port, () => {
+      console.log(`Server running at port ${port}`);
+    });
+  })
+  .catch((error) => {
+    console.error("DB connection error:", error);
+  });
