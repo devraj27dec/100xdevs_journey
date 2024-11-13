@@ -7,53 +7,152 @@
   </head>
   <body>
     <div>
-      <input type="text" id="title" />
-      <input type="text" id="desc" />
+      <input type="text" id="title" placeholder="Enter title" /><br />
+      <br />
+      <input
+        type="text"
+        id="description"
+        placeholder="Enter description"
+      /><br />
+      <br />
       <button onclick="addTodo()">Add Todo</button>
-
       <div id="todos"></div>
+
+      <!-- <div id="container"></div> -->
     </div>
 
     <script>
-      let globalId = 0;
-      function MarkAsDone(todoId) {
-        const parent = document.getElementById(todoId);
-        parent.children[2].innerHTML = "Done!";
-      }
+      let globalId = 1;
+      let todoState = [];
+      let oldTodoState = [];
 
-      function createChild(title, description, id) {
-        const child = document.createElement("div");
-        const firstGrandParent = document.createElement("div");
-        firstGrandParent.innerHTML = title;
-        const secondGrandParent = document.createElement("div");
-        secondGrandParent.innerHTML = description;
-        const thirdGrandParent = document.createElement("button");
-        thirdGrandParent.innerHTML = "Mark as Done";
+      // function MarkAsDone(todoId) {
+      //   const parent = document.getElementById(todoId);
+      //   parent.children[2].innerHTML = "Done!";
+      // }
 
-        thirdGrandParent.setAttribute("onclick", `MarkAsDone(${id})`);
+      // function createChild(title, description, id) {
+      //   const child = document.createElement("div");
+      //   const firstGrandParent = document.createElement("div");
+      //   firstGrandParent.innerHTML = title;
+      //   const secondGrandParent = document.createElement("div");
+      //   secondGrandParent.innerHTML = description;
+      //   const thirdGrandParent = document.createElement("button");
+      //   thirdGrandParent.innerHTML = "Mark as Done";
 
-        child.appendChild(firstGrandParent);
-        child.appendChild(secondGrandParent);
-        child.appendChild(thirdGrandParent);
-        child.setAttribute("id", id);
-        return child;
+      //   thirdGrandParent.setAttribute("onclick", `MarkAsDone(${id})`);
 
-        console.log(title);
-        console.log(description);
-      }
+      //   child.appendChild(firstGrandParent);
+      //   child.appendChild(secondGrandParent);
+      //   child.appendChild(thirdGrandParent);
+      //   child.setAttribute("id", id);
+      //   return child;
+
+      //   // console.log(title);
+      //   // console.log(description);
+      // }
+
+      // function updateDocAccToState(state) {
+      //   const parent =  document.getElementById("container")
+      //  parent.innerHTML = ""
+      //  for(let i = 0; i < state.length; i++) {
+      //   const child = createChild(state[i].title , state[i].description , state[i].id)
+      //   parent.appendChild(child)
+      //  }
+      // }
+      // updateDocAccToState([
+      //   {
+      //     title : "go to gym",
+      //     description: "go to gym 5 - 7",
+      //     id:"1"
+      //   },{
+      //     title : "go to dinner",
+      //     description: "go to dinner 8 - 9",
+      //     id:"1"
+      //   }
+      // ]);
+
+      // window.setInterval(async function () {
+      //   const res = await fetch("https://sum-server.100xdevs.com/todos")
+      //   const resJson = await res.json();
+      //   updateDocAccToState(resJson.todos)
+      // }, 3000)
+
+      // function addTodo() {
+      // const title = document.getElementById("title").value;
+      // const description = document.getElementById("desc").value;
+      // const originalHtml = document.getElementById("todos").innerHTML;
+      // document.getElementById("container").innerHTML = originalHtml + `
+      //     <div id="title">${title}</div>
+      //     <div id="desc">${description}</div>
+      //     <button>Mark as done</button>
+      // `
+      // const parent = document.getElementById("todos");
+      // parent.appendChild(createChild(title, description, globalId++));
+
+      // }
 
       function addTodo() {
         const title = document.getElementById("title").value;
+        const description = document.getElementById("description").value;
+
+        todoState.push({
+          title: title,
+          description: description,
+          id: globalId++,
+        });
+
+        updateState(todoState);
+      }
+
+      function removeTodo(todo) {
+        const element = document.getElementById(todo.id);
+        element.parentElement.removeChild(element);
+      }
+
+      function updateTodo(oldTodo, newTodo) {
+        const element = document.getElementById(newTodo.id);
+        element.children[0].innerHTML = newTodo.title;
+        element.children[1].innerHTML = newTodo.description;
+        element.children[2].innerHTML = newTodo.completed
+          ? "Mark as done"
+          : "Done";
+      }
+
+      function updateState(newTodos) {
+        const added = newTodos.filter(
+          (newTodo) =>
+            !oldTodoState.some((oldTodo) => oldTodo.id === newTodo.id)
+        );
+        const deleted = oldTodoState.filter(
+          (oldTodo) => !newTodos.some((newTodo) => newTodo.id === oldTodo.id)
+        );
+        const updated = newTodos.filter((newTodo) =>
+          oldTodoState.some((oldTodo) => oldTodo.id === newTodo.id)
+        );
+
+        // Call addTodo, removeTodo, updateTodo functions on each of the elements
+        added.forEach((newTodo) => addTodoElement(newTodo));
+        deleted.forEach((oldTodo) => removeTodoElement(oldTodo));
+        updated.forEach((newTodo) => updateTodoElement(newTodo));
+
+        oldTodoState = [...newTodos];
+      }
+
+      function addTodoElement(newTodo) {
+        const title = document.getElementById("title").value;
         const description = document.getElementById("desc").value;
-        const originalHtml = document.getElementById("todos").innerHTML;
-        // document.getElementById("container").innerHTML = originalHtml + `
-        //     <div id="title">${title}</div>
-        //     <div id="desc">${description}</div>
-        //     <button>Mark as done</button>
-        // `
-        const parent = document.getElementById("todos");
-        parent.appendChild(createChild(title, description, globalId++));
+
+        todoState.push({
+          title: title,
+          description: description,
+          id: globalId++,
+        });
+        updateState(todoState);
       }
     </script>
   </body>
 </html>
+
+
+

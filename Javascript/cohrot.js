@@ -179,16 +179,16 @@
 
 // loupe -> website (it gave more standing about callstack , queue , web api)
 
+// function medicineGet() {
+//     return new Promise(function(resolve) {
+//         setTimeout(resolve , 2*1000)
+//     })
+// }
+
+// medicineGet().then(function () {
+//     console.log("medicine recieved");
+// }).catch(function(err) {
+//     console.log("Medicine Not Recieved" , err);
+// })
 
 
-function medicineGet() {
-    return new Promise(function(resolve) {
-        setTimeout(resolve , 2*1000)
-    })
-}
-
-medicineGet().then(function () {
-    console.log("medicine recieved");
-}).catch(function(err) {
-    console.log("Medicine Not Recieved" , err);
-})

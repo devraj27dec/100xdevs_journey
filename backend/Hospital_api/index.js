@@ -104,6 +104,23 @@ app.get("/", (req, res) => {
 // })
 
 
+
+// jwt -> generate , decode , verify
+
+// const value = {
+//   name: "dev",
+//   password:"12123"
+// }
+
+// const token = jwt.sign(value , "jwtsecret")  // genrate token
+// console.log(token)
+
+// const verifiedvalue = jwt.verify("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiZGV2IiwicGFzc3dvcmQiOiIxMjEyMyIsImlhdCI6MTczMTQxNTI5OH0.h8hBfbNTNvB7vC0b25XcttXCcHQHi0MgwVRVWp7qhHg" , "jwtsecret")
+
+// console.log(verifiedvalue)
+
+
+
 // app.post("/register", function (req, res) {
 //   const response = validateInput(req.body);
 
@@ -205,37 +222,37 @@ app.get("/", (req, res) => {
 // User Authentication with db
 
 
-const userSchema = mongoose.Schema({
-    name: String,
-    email:String,
-    password: String
-})
-const User = mongoose.model('User' , userSchema)
+// const userSchema = mongoose.Schema({
+//     name: String,
+//     email:String,
+//     password: String
+// })
+// const User = mongoose.model('User' , userSchema)
 
-app.post('/signup' , async (req , res) => {
+// app.post('/signup' , async (req , res) => {
     
-    const {name , email , password} = req.body;
+//     const {name , email , password} = req.body;
 
 
-    try {
-        const existingUser = await User.findOne({ email });;
-        if(existingUser) {
-            return res.status(402).json({msg: "User already exits"})
-        }
-        const user = new User({
-            name,
-            email,
-            password
-        })
-        await user.save();
-        res.json({
-            msg: "User created successfully"
-        })
-    } catch (error) {
-        console.error("Error creating user:", error);
-        res.status(500).json({ msg: "Internal server error" });
-    }
-})
+//     try {
+//         const existingUser = await User.findOne({ email });;
+//         if(existingUser) {
+//             return res.status(402).json({msg: "User already exits"})
+//         }
+//         const user = new User({
+//             name,
+//             email,
+//             password
+//         })
+//         await user.save();
+//         res.json({
+//             msg: "User created successfully"
+//         })
+//     } catch (error) {
+//         console.error("Error creating user:", error);
+//         res.status(500).json({ msg: "Internal server error" });
+//     }
+// })
 
 
 
