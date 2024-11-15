@@ -3,14 +3,15 @@ const dbConnect = require('./config/db');
 const Todo = require('./config/model');
 const app = express()
 const port = 5000;
+const cors = require('cors')
 const {createTodo}  = require('./config/types')
 
 app.use(express.json())
+app.use(cors())
 
 app.get('/' , (req , res)  =>{
     res.send("Hello world")
 })
-
 
 app.post('/todo', async function(req, res) {
     try {
@@ -44,9 +45,8 @@ app.post('/todo', async function(req, res) {
 
 
 app.get('/todos' , async function (req , res) {
-
     const todos = await Todo.find({})
-    res.json(todos)
+    res.json({todos})
 })
 
 
