@@ -3,8 +3,12 @@ function App() {
   return (
     <>
       <h1>Welcome to React App</h1>
-      <CardWrapper innerComponent={<TextComponent title="hello"/>}/>
-      <CardWrapper innerComponent={<TextComponent title="hello guyz"/>}/>
+      <CardWrapper>
+        <TextComponent title="hi from text component 1"/>
+      </CardWrapper >
+      <CardWrapper>
+        <TextComponent title="hi from text component 2"/>
+      </CardWrapper>
     </>
   )
 }
@@ -15,9 +19,11 @@ function TextComponent({title}) {
   </div>
 }
 
-function CardWrapper ({innerComponent}) {
+function CardWrapper ({children}) {
   return <div style={{ border: "2px solid black" , padding: 30}}>
-    {innerComponent}
+    {children}
   </div>
 }
+
+
 export default App
