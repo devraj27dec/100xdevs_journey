@@ -1,12 +1,13 @@
 // import Todos from "./assigments/Todos"
 
-import {lazy , Suspense } from "react"
-import { BrowserRouter as Router , Routes , Route, useNavigate } from "react-router-dom"
+// Routing
+// import {lazy , Suspense } from "react"
+// import { BrowserRouter as Router , Routes , Route, useNavigate } from "react-router-dom"
+// const Dashboard = lazy(() => import("./components/Dashboard")) 
+// const Hero = lazy(() => import("./components/Hero")) 
 
 
-const Dashboard = lazy(() => import("./components/Dashboard")) 
-const Hero = lazy(() => import("./components/Hero")) 
-
+// Hooks 
 // import Reconcillation from "./Hooks/Reconcillation"
 // import UseCallback from "./Hooks/UseCallback"
 // import UseRefHook from "./Hooks/useRef"
@@ -19,14 +20,13 @@ function App() {
       <h1>Welcome to React App</h1>
       
       {/* Routing  */}
-
-      <Router>
+      {/* <Router>
         <AppBar/>
         <Routes>
           <Route path="/dashboard" element={<Suspense fallback={"loading..."}><Dashboard/></Suspense>}/>
           <Route path="/" element={<Suspense fallback={'loading...'}><Hero/></Suspense>}/>
         </Routes>
-      </Router>
+      </Router> */}
 
 
 
@@ -70,17 +70,17 @@ function App() {
 // }
 
 
-function AppBar() {
+// function AppBar() {
 
-  const navigate = useNavigate()
+//   const navigate = useNavigate()
   
-  return (
-    <div>
-      <button onClick={() => navigate('/dashboard')}>Dashboard</button>
-      <button onClick={() => navigate('/')}>Hero</button>
-  </div>
-  )
-}
+//   return (
+//     <div>
+//       <button onClick={() => navigate('/dashboard')}>Dashboard</button>
+//       <button onClick={() => navigate('/')}>Hero</button>
+//   </div>
+//   )
+// }
 
 
 export default App
