@@ -1,79 +1,83 @@
-/* eslint-disable react/prop-types */
-import { useContext, useState } from "react"
-import { CountContext } from "./context/CountContext"
 
-// Context Api -: teleport props from one componet to another without passing it down the chain
+import { RecoilRoot, useRecoilValue, useSetRecoilState } from "recoil";
+import { countAtom } from "./store/atoms/count";
+import { useMemo } from "react";
 
-
-
-// steps to such follow context api
-// define the context
-// provide the context in parent component 
-// & use the context in child component where u want
 
 function App() {
-  const [count , setCount] = useState(0)
-
-  // wrap anyone that wants the teleport value inside a provider
   return (
     <>
-      <h1>Welcome to React App</h1>
-      <div>
-        <CountContext.Provider value={count}>
-          <Count setCount={setCount}/>
-        </CountContext.Provider>
-      </div>
+      <RecoilRoot>
+        <h1>Welcome to React App</h1>
+        <Count/>
+      </RecoilRoot>
     </>
   )
 }
 
-function CounterRender(){
-  let count = useContext(CountContext)
-  return <div>
-    {count}
-  </div>
+
+function Count() {
+  console.log("count rerender")
+  return <>
+    <CountRender/>
+    <Buttons/>
+  </>
 }
 
-function Count({setCount}) {
-  console.log("rendred count")
-  // let count = useContext(CountContext)
-  return (
-    <>  
-    <div style={{fontSize:"30px"}}>
-      <CounterRender/>
-    </div>
-      <Buttons setCount={setCount}/>
-    </>
-    
-  )
+function CountRender() {
+  let count = useRecoilValue(countAtom);
+  return <>
+    <b style={{ fontSize:"30px", display:"flex", padding:"10px"}}>{count} :  <CountStateRender/>
+    </b>
+  </>
 }
 
-function Buttons({setCount}) {
-  let count = useContext(CountContext)
+
+function CountStateRender() {
+  let count = useRecoilValue(countAtom)
+  
+  // if(count % 2 === 0){
+  //   return <div>Even</div>
+  // }else {
+  //   return <div>Odd</div>
+  // }
+
+  // optimise approach
+
+  const isEven = useMemo(() => {
+    if (count < 0) return 'NAN';  // when count changes then only this line run
+    return count % 2 === 0;  // when count changes then only this line run
+  }, [count]);
+
   return (
     <div>
-      <button onClick={() => setCount(count + 1)}>increase</button>
-      <button onClick={() => setCount(count - 1)}>decrease</button>
+      {isEven === 'NAN' ? 'NAN' : isEven ? 'Even' : 'Odd'}
     </div>
-  )
+  );
+}
+
+function Buttons() {
+  console.log("buttons rerender")
+
+  // const [count , setCount] = useRecoilState(countAtom)
+  // it gave rerender so we fix and optimse by useSetRecoilState 
+
+
+  const setCount = useSetRecoilState(countAtom)
+
+  return <div>
+    <button onClick={() => setCount(count => (count + 1))}>Increase</button>
+    <button onClick={() => setCount(count => (count - 1))}>decrease</button>
+  </div>
 }
 
 export default App
 
 
-// why do you use the context api
-// To make rerendering more preformant ans -> no -> for solving this problem introduce about state management libraries like redux , recoil
-
-// To make syntax cleaner get rid of prop drilling -> yes
-
-
-
-// short coming or cons fo context api
-// it doesn't fix the re-rendering of child components as we seen in counter app even components that don’t use the context still re-render whenever the context value changes. This can lead to performance issues, especially in large apps.
-
-
-
-
-// Ques => Is Rect context use props drilling 
-// No, the React Context API does not use prop drilling under the hood. Prop drilling is the process of passing data through multiple layers of nested components. It over come the props drilling concept because props drilling good to send the data through props those are near components which we see in tree structure but if you want to send the data or get then context is defined how it is see. The React Context API is a built-in API that lets you pass data from a parent component to its descendants without prop drilling. Instead, it allows a React app to produce global variables that can be passed around. The Context API is more advantageous when dealing with deeply nested components because it provides a direct way for child components to access the context without passing props through intermediate components.
-
+// Recoil learnings ->
+// * Recoil Root
+// * atom
+// * useRecoilState
+// * useRecoilValue
+// * useSeetRecoilState
+// * selector
