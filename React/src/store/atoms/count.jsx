@@ -1,4 +1,4 @@
-import { atom} from "recoil";
+import { atom , selector} from "recoil";
 
 export const countAtom = atom({
   key:"countAtom",
@@ -6,3 +6,11 @@ export const countAtom = atom({
 })
 
 
+
+export const stateCountSelector = selector({
+  key:"stateSelector",
+  get: ({get}) => {
+   const count = get(countAtom)
+   return count % 2;
+  }
+})

@@ -1,7 +1,7 @@
 
 import { RecoilRoot, useRecoilValue, useSetRecoilState } from "recoil";
-import { countAtom } from "./store/atoms/count";
-import { useMemo } from "react";
+import { countAtom, stateCountSelector } from "./store/atoms/count";
+// import { useMemo } from "react";
 
 
 function App() {
@@ -34,7 +34,7 @@ function CountRender() {
 
 
 function CountStateRender() {
-  let count = useRecoilValue(countAtom)
+  // let count = useRecoilValue(countAtom)
   
   // if(count % 2 === 0){
   //   return <div>Even</div>
@@ -42,16 +42,25 @@ function CountStateRender() {
   //   return <div>Odd</div>
   // }
 
-  // optimise approach
+  // better approach
 
-  const isEven = useMemo(() => {
-    if (count < 0) return 'NAN';  // when count changes then only this line run
-    return count % 2 === 0;  // when count changes then only this line run
-  }, [count]);
+  // const isEven = useMemo(() => {
+  //   if (count < 0) return 'NAN';  // when count changes then only this line run
+  //   return count % 2 === 0;  // when count changes then only this line run
+  // }, [count]);
+
+
+
+
+  // optimise apporoach -: selectors
+
+  const isEven = useRecoilValue(stateCountSelector)
+
+
 
   return (
     <div>
-      {isEven === 'NAN' ? 'NAN' : isEven ? 'Even' : 'Odd'}
+      {isEven === 0 ? 'Even' : 'Odd'}
     </div>
   );
 }
