@@ -1,87 +1,53 @@
 
-import { RecoilRoot, useRecoilValue, useSetRecoilState } from "recoil";
-import { countAtom, stateCountSelector } from "./store/atoms/count";
+import { RecoilRoot, useRecoilValue} from "recoil";
+import { jobsAtom, messageAtom, networkAtom, notficationAtom, totalNotficationSelector } from "./store/atoms/socio";
 // import { useMemo } from "react";
-
 
 function App() {
   return (
     <>
       <RecoilRoot>
         <h1>Welcome to React App</h1>
-        <Count/>
+        <SocioNav/>
       </RecoilRoot>
+      
     </>
   )
 }
 
-
-function Count() {
-  console.log("count rerender")
-  return <>
-    <CountRender/>
-    <Buttons/>
-  </>
-}
-
-function CountRender() {
-  let count = useRecoilValue(countAtom);
-  return <>
-    <b style={{ fontSize:"30px", display:"flex", padding:"10px"}}>{count} :  <CountStateRender/>
-    </b>
-  </>
-}
-
-
-function CountStateRender() {
-  // let count = useRecoilValue(countAtom)
+function SocioNav() {
+  const networkNotifcationCount = useRecoilValue(networkAtom)
+  const jobsCount = useRecoilValue(jobsAtom)
+  const notificationsCount = useRecoilValue(notficationAtom)
+  const msgCount = useRecoilValue(messageAtom)
   
-  // if(count % 2 === 0){
-  //   return <div>Even</div>
-  // }else {
-  //   return <div>Odd</div>
-  // }
-
-  // better approach
-
-  // const isEven = useMemo(() => {
-  //   if (count < 0) return 'NAN';  // when count changes then only this line run
-  //   return count % 2 === 0;  // when count changes then only this line run
-  // }, [count]);
+  // const totalNotficationCount = notificationsCount + jobsCount + msgCount + networkNotifcationCount
 
 
+  // useMemo 
+  // const totalNotficationCount = useMemo(() => {  
+  //   return notificationsCount + jobsCount + msgCount + networkNotifcationCount
+  // },[notificationsCount , jobsCount , msgCount , networkNotifcationCount])
 
-
-  // optimise apporoach -: selectors
-
-  const isEven = useRecoilValue(stateCountSelector)
-
+  // selector 
+  const totalNotficationCount = useRecoilValue(totalNotficationSelector)
 
 
   return (
     <div>
-      {isEven === 0 ? 'Even' : 'Odd'}
+      <button>Home</button>
+      <button >My Network {(networkNotifcationCount >= 100) ? "99+" : (networkNotifcationCount) }</button>
+      <button>jobs {jobsCount > 0 ? jobsCount : ""}</button>
+      <button >notifications {notificationsCount}</button>
+      <button>msg {msgCount > 0 ? msgCount : ""}</button>
+  
+      <button>Me {totalNotficationCount}</button>
+    
     </div>
-  );
-}
-
-function Buttons() {
-  console.log("buttons rerender")
-
-  // const [count , setCount] = useRecoilState(countAtom)
-  // it gave rerender so we fix and optimse by useSetRecoilState 
-
-
-  const setCount = useSetRecoilState(countAtom)
-
-  return <div>
-    <button onClick={() => setCount(count => (count + 1))}>Increase</button>
-    <button onClick={() => setCount(count => (count - 1))}>decrease</button>
-  </div>
+  )
 }
 
 export default App
-
 
 // Recoil learnings ->
 // * Recoil Root
@@ -90,3 +56,5 @@ export default App
 // * useRecoilValue
 // * useSeetRecoilState
 // * selector
+
+
