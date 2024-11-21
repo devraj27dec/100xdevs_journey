@@ -1,7 +1,8 @@
-
-import { RecoilRoot, useRecoilValue} from "recoil";
-import { jobsAtom, messageAtom, networkAtom, notficationAtom, totalNotficationSelector } from "./store/atoms/socio";
+import { RecoilRoot , useRecoilState} from "recoil"; 
+// import { jobsAtom, messageAtom, networkAtom, notficationAtom, totalNotficationSelector } from "./store/atoms/socio";
+import {notifications} from './store/atoms/socio'
 // import { useMemo } from "react";
+
 
 function App() {
   return (
@@ -16,10 +17,10 @@ function App() {
 }
 
 function SocioNav() {
-  const networkNotifcationCount = useRecoilValue(networkAtom)
-  const jobsCount = useRecoilValue(jobsAtom)
-  const notificationsCount = useRecoilValue(notficationAtom)
-  const msgCount = useRecoilValue(messageAtom)
+  // const networkNotifcationCount = useRecoilValue(networkAtom)
+  // const jobsCount = useRecoilValue(jobsAtom)
+  // const notificationsCount = useRecoilValue(notficationAtom)
+  // const msgCount = useRecoilValue(messageAtom)
   
   // const totalNotficationCount = notificationsCount + jobsCount + msgCount + networkNotifcationCount
 
@@ -30,19 +31,22 @@ function SocioNav() {
   // },[notificationsCount , jobsCount , msgCount , networkNotifcationCount])
 
   // selector 
-  const totalNotficationCount = useRecoilValue(totalNotficationSelector)
+  // const totalNotficationCount = useRecoilValue(totalNotficationSelector)
+
+
+  // async queries 
+
+  // eslint-disable-next-line no-unused-vars
+  const [networkCount  ,setNetworkCount] = useRecoilState(notifications)
 
 
   return (
     <div>
       <button>Home</button>
-      <button >My Network {(networkNotifcationCount >= 100) ? "99+" : (networkNotifcationCount) }</button>
-      <button>jobs {jobsCount > 0 ? jobsCount : ""}</button>
-      <button >notifications {notificationsCount}</button>
-      <button>msg {msgCount > 0 ? msgCount : ""}</button>
-  
-      <button>Me {totalNotficationCount}</button>
-    
+      <button >My Network {networkCount.network}</button>
+      <button>jobs {networkCount.jobs}</button>
+      <button >notifications {networkCount.notifications}</button>
+      <button>msg {networkCount.messages}</button>
     </div>
   )
 }
