@@ -1,7 +1,6 @@
-import { RecoilRoot , useRecoilState} from "recoil"; 
-// import { jobsAtom, messageAtom, networkAtom, notficationAtom, totalNotficationSelector } from "./store/atoms/socio";
-import {notifications} from './store/atoms/socio'
-// import { useMemo } from "react";
+/* eslint-disable react/prop-types */
+import { RecoilRoot, useRecoilState} from "recoil"; 
+import { TodoAtomFamily } from "./store/atoms/todo";
 
 
 function App() {
@@ -9,44 +8,23 @@ function App() {
     <>
       <RecoilRoot>
         <h1>Welcome to React App</h1>
-        <SocioNav/>
+        <Todo id={1}/>
+        <Todo id={2}/>
+        <Todo id={3}/>
+        <Todo id={4}/>
       </RecoilRoot>
       
     </>
   )
 }
 
-function SocioNav() {
-  // const networkNotifcationCount = useRecoilValue(networkAtom)
-  // const jobsCount = useRecoilValue(jobsAtom)
-  // const notificationsCount = useRecoilValue(notficationAtom)
-  // const msgCount = useRecoilValue(messageAtom)
-  
-  // const totalNotficationCount = notificationsCount + jobsCount + msgCount + networkNotifcationCount
-
-
-  // useMemo 
-  // const totalNotficationCount = useMemo(() => {  
-  //   return notificationsCount + jobsCount + msgCount + networkNotifcationCount
-  // },[notificationsCount , jobsCount , msgCount , networkNotifcationCount])
-
-  // selector 
-  // const totalNotficationCount = useRecoilValue(totalNotficationSelector)
-
-
-  // async queries 
-
+function Todo ({id}){
   // eslint-disable-next-line no-unused-vars
-  const [networkCount  ,setNetworkCount] = useRecoilState(notifications)
-
-
+  const [todo , setTodo] = useRecoilState(TodoAtomFamily(id))
   return (
     <div>
-      <button>Home</button>
-      <button >My Network {networkCount.network}</button>
-      <button>jobs {networkCount.jobs}</button>
-      <button >notifications {networkCount.notifications}</button>
-      <button>msg {networkCount.messages}</button>
+      <h2>{todo.title}</h2>
+      <p>{todo.description}</p>
     </div>
   )
 }

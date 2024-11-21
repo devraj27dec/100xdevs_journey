@@ -32,20 +32,23 @@ const todos = [{
     title: "Todo 5",
     description: "This is todo 5",
     completed: false,
-  }]
+}]
 
 app.get('/todo' , (req , res) => {
-    const todo = todos.find(t => t.id === req.query.id)
-    res.json({
-        todo
-    })
+  const id = parseInt(req.query.id, 10);
+  const todo = todos.find(t => t.id === id)
+  console.log(todo)
+  res.json({
+    msg:"todos find",
+    todo
+  })
 })
 
 app.get('/todos' , (req ,res) => {
     const randomTodos = []
     for (let i = 0; i < 5; i++) {
         if(Math.random() > 0.5) {
-            randomTodos.push(todos[i])
+          randomTodos.push(todos[i])
         }
     }
     res.json({
