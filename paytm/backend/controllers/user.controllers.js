@@ -1,5 +1,7 @@
 const User = require("../models/user.models");
+const Account = require('../models/account.model')
 const jwt = require("jsonwebtoken");
+const mongoose = require('mongoose')
 
 const generateAccessAndRefereshTokens = async (userId) => {
   try {
@@ -32,6 +34,15 @@ exports.SignUpController = async (req, res) => {
     email,
     password,
   });
+
+  const userId = user._id
+
+  console.log("userId" , userId)
+  const account = await Account.create({
+    userId,
+    balance: Math.floor(1 + Math.random() * 1000)
+  })
+
   const { accessToken, refreshToken } = await generateAccessAndRefereshTokens(
     user._id
   );
@@ -40,6 +51,7 @@ exports.SignUpController = async (req, res) => {
     msg: "User Created Succssfully",
     accessToken,
     refreshToken,
+    account
   });
 };
 
@@ -91,8 +103,15 @@ exports.SignInController = async (req, res) => {
 
 };
 
-exports.profileController = (req, res) => {
+exports.profileController = async(req, res) => {
   const user = req.user;
+
+
+  const account = await Account.findOne({ userId: user._id });
+
+  if (!account) {
+    return res.status(404).json({ msg: "Account not found for this user" });
+  }
 
   res.status(200).json({
     msg: "User Profile",
@@ -100,6 +119,10 @@ exports.profileController = (req, res) => {
       id: user._id,
       username: user.username,
       email: user.email,
+      account: {
+        id: account._id,
+        balance: account.balance,
+      }
     },
   });
 };
@@ -113,3 +136,6 @@ exports.LogoutController = async (req, res) => {
     msg: `logged out successfully`,
   });
 };
+
+
+

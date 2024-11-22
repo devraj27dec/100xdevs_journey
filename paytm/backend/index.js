@@ -3,7 +3,8 @@ const express = require('express')
 const app = express()
 const port = process.env.PORT || 3000;
 const connectDB = require('./config/db')
-const UserRouter = require('./routes/user.route');
+const UserRouter = require('./routes/route');
+const AccountRouter = require('./routes/route');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
@@ -15,7 +16,8 @@ app.get('/' , (req ,res) => {
     res.send("Welcome to Paytm Wallet App Backend")
 })
 
-app.use('/api/v1',  UserRouter)
+app.use('/api/v1/users',  UserRouter)
+app.use('/api/v1/account', AccountRouter)
 
 connectDB()
 app.listen(port , (req , res) => {
