@@ -3,6 +3,9 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 
+
+// starts always with use
+
 export const useTodo = (n) => {
 
     const [loading , setLoading] = useState(true)

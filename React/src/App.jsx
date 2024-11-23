@@ -1,27 +1,18 @@
-/* eslint-disable react/prop-types */
-import { useTodo } from "./Hooks/CustomHooks"
+import UseOnline from "./Hooks/UseOnline"
 
 function App() {
-  const {todos , loading}= useTodo(5)
-
-  if(loading){
-    return <div>
-      Loading...
-    </div>
-  }
-  
+  const online = UseOnline()
   return (
     <>
-      {todos.map((todo) => <Track key={todo.id} todo={todo}/>)}
+      {online ? (
+        <div>you are online</div>
+      ) : (
+        <div>
+          You are offline check your connection
+        </div>
+      )}
+      
     </>
   )
-}
-
-function Track ({todo}) {
-  return <div>
-    {todo.title}
-    <br />
-    {todo.description}
-  </div>
 }
 export default App
