@@ -1,18 +1,19 @@
-import UseOnline from "./Hooks/UseOnline"
+import { useState } from "react";
+import { UseDebounce } from "./Hooks/UseDebounce";
 
 function App() {
-  const online = UseOnline()
+  const [value, setValue] = useState("");
+  const debouncedValue = UseDebounce(value , 500)
   return (
     <>
-      {online ? (
-        <div>you are online</div>
-      ) : (
-        <div>
-          You are offline check your connection
-        </div>
-      )}
-      
+      Debounce Value is {debouncedValue}
+      <input
+        type="text"
+        placeholder="Enter"
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+      />
     </>
-  )
+  );
 }
-export default App
+export default App;
