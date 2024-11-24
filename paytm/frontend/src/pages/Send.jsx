@@ -6,7 +6,6 @@ const Send = () => {
           <div className="flex flex-col space-y-2 text-center">
             <h2 className="text-3xl font-bold text-gray-800">Send Money</h2>
           </div>
-
           <div className="flex items-center space-x-4">
             <div className="w-12 h-12 rounded-full bg-green-500 flex items-center justify-center">
               <span className="text-2xl text-white">A</span>

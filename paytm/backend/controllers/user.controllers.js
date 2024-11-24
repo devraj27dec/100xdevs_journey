@@ -44,7 +44,7 @@ exports.SignUpController = async (req, res) => {
   })
 
   const { accessToken, refreshToken } = await generateAccessAndRefereshTokens(
-    user._id
+    userId
   );
 
   return res.status(201).json({

@@ -7,7 +7,10 @@ const UserRouter = require('./routes/route');
 const AccountRouter = require('./routes/route');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const cors = require('cors')
 
+
+app.use(cors())
 app.use(express.json())
 app.use(cookieParser())
 app.use(bodyParser.urlencoded({extended:true}))
