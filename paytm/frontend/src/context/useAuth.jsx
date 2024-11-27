@@ -27,6 +27,7 @@ export const AuthProvider = ({children}) => {
             const data = await res.json()
             console.log(data)
             setUser(data.user)
+            return { success: true };
         } catch (error) {
             setError(error.message)
         } finally{
@@ -46,6 +47,7 @@ export const AuthProvider = ({children}) => {
             }
             const data = await res.json()
             setUser(data.user)
+            return { success: true };
         } catch (error) {
             setError(error.message)
         }finally{

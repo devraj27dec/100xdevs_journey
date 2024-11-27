@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Link, useNavigate } from "react-router-dom"
+import { Link,  useNavigate} from "react-router-dom"
 import { useAuth } from "../context/useAuth"
 import { LuLoader2 } from "react-icons/lu"
 
@@ -11,12 +11,14 @@ const SignIn = () => {
 
   const navigate = useNavigate()
   
-  const handleSignIn = (e) => {
+  const handleSignIn = async(e) => {
     e.preventDefault()
-    SignIn(email , password)
-    navigate('/dashboard')
+    const result = await SignIn(email , password)
+    if(result. success === true) {
+      console.log("navigate to signin")
+      navigate("/dashboard")
+    }
   }
-
   return (
     <div className="h-screen flex justify-center items-center bg-gray-300">
       <div className="border shadow-md flex flex-col h-[450px] w-[400px] items-center bg-white p-6 rounded-lg">

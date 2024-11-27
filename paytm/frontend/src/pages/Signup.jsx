@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/useAuth";
 import {  LuLoader2  } from "react-icons/lu";
 
@@ -11,10 +11,12 @@ const Signup = () => {
 
   const { SignUp , loading, error} = useAuth();
 
+  const navigate = useNavigate()
+
   const handleSignUp = async (e) => {
     e.preventDefault();
-
     await SignUp(username, email, password);
+    navigate("/dashboard")
   };
 
   return (

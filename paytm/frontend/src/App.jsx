@@ -5,7 +5,9 @@ import Dashboard from "./pages/Dashboard"
 import Send from "./pages/Send"
 import Hero from "./pages/Hero"
 import { AuthProvider} from "./context/useAuth"
+
 function App() {
+
 
   return(
     <AuthProvider>

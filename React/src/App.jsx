@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { UseDebounce } from "./Hooks/UseDebounce";
+import Card from "./components/Card";
 
 function App() {
   const [value, setValue] = useState("");
@@ -13,6 +14,7 @@ function App() {
         value={value}
         onChange={(e) => setValue(e.target.value)}
       />
+      <Card/>
     </>
   );
 }
