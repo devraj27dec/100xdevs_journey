@@ -59,32 +59,32 @@
 
 // inheritance
 
-const User = {
-    name: "devraj"
-}
-const Teacher = {
-    makeVideo: true
-}
-const TeachingSupport = {
-    isAvailabel : true
-}
-const TASupport = {
-    fullTime: true,
-    makePapers: "JS Assignment",
-    __proto__:TeachingSupport
-}
+// const User = {
+//     name: "devraj"
+// }
+// const Teacher = {
+//     makeVideo: true
+// }
+// const TeachingSupport = {
+//     isAvailabel : true
+// }
+// const TASupport = {
+//     fullTime: true,
+//     makePapers: "JS Assignment",
+//     __proto__:TeachingSupport
+// }
 
-// modern syntaxc
-Object.setPrototypeOf(TeachingSupport , Teacher)
+// // modern syntaxc
+// Object.setPrototypeOf(TeachingSupport , Teacher)
 
-const Username = "Devraj Rajput     "
+// const Username = "Devraj Rajput     "
 
-String.prototype.trueLength = function() {
-    console.log(`${this}`)
-    console.log(`True length is : ${this.trim().length}`)
-}
+// String.prototype.trueLength = function() {
+//     console.log(`${this}`)
+//     console.log(`True length is : ${this.trim().length}`)
+// }
 
-Username.trueLength()
+// Username.trueLength()
 
 
 // class User{
@@ -118,5 +118,13 @@ Username.trueLength()
 //     }
 // }
 
-
-
+// function sumEvenNumbers() {
+//     let sum = 0;
+//     for (let i = 2; i <= 100; i += 2) {
+//       sum += i;
+//     }
+//     return sum;
+// }
+  
+// console.log(sumEvenNumbers()); // Output: 2550
+  
