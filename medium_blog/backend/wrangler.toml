@@ -1,8 +1,29 @@
 name = "backend"
 main = "src/index.ts"
-compatibility_date = "2024-12-08"
+compatibility_date = "2024-12-11"
 
-# compatibility_flags = [ "nodejs_compat" ]
+compatibility_flags = [ "nodejs_compat" ]
 
 [vars]
-DATABASE_URL="prisma://accelerate.prisma-data.net/?api_key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfa2V5IjoiOTcxZWE2YzctYzUxMC00NzA5LTg5MzctNWViNTBiYjA0ZDRiIiwidGVuYW50X2lkIjoiMzNlOGM3MmU0MDE0OWUxODIzZTgwYTZkYzNlOWJlZTRmYjZkMmE1ZjViMjIyMmY5OTE4MmZjNzQ3NTE1NGE4MCIsImludGVybmFsX3NlY3JldCI6Ijk1ZTg2NGNiLTVmY2MtNGUzNS04MTQ1LTVlMTg2YWQ0NGY2ZCJ9.PHffwhBe1WFuh29Z6co8jYInpxQaN3FDMywJDOFHHBw"
+DATABASE_URL="prisma://accelerate.prisma-data.net/?api_key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfa2V5IjoiNGY1ZDU4ZDYtNGEzNy00ZjgzLWEwZmUtMTg0ZWQ4ZmMzN2MxIiwidGVuYW50X2lkIjoiMzNlOGM3MmU0MDE0OWUxODIzZTgwYTZkYzNlOWJlZTRmYjZkMmE1ZjViMjIyMmY5OTE4MmZjNzQ3NTE1NGE4MCIsImludGVybmFsX3NlY3JldCI6Ijk1ZTg2NGNiLTVmY2MtNGUzNS04MTQ1LTVlMTg2YWQ0NGY2ZCJ9.OrgRV4URhC5M_DZG0mHu54VOEzOJNqYZTQa9P4VzR0Q"
+JWT_SECRET="d52f2ed516bd1eb427b1ac81b31454db5828814178bc2b0e5cf445020444755e"
+
+# [[kv_namespaces]]
+# binding = "MY_KV_NAMESPACE"
+# id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+# [[r2_buckets]]
+# binding = "MY_BUCKET"
+# bucket_name = "my-bucket"
+
+# [[d1_databases]]
+# binding = "DB"
+# database_name = "my-database"
+# database_id = ""
+
+# [ai]
+# binding = "AI"
+
+# [observability]
+# enabled = true
+# head_sampling_rate = 1
