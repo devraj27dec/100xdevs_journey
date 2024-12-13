@@ -118,7 +118,7 @@ blogRouter.get('/:id' , async(c) => {
             id: id
         }
     })
-    return c.json(blog , 201)
+    return c.json({blog})
 
 })
 

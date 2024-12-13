@@ -1,0 +1,1 @@
+export const BACKEND_URL="https://backend.rajkirar2002-pc.workers.dev/api/v1"
