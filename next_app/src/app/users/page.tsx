@@ -1,8 +1,15 @@
 import axios from "axios";
 
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function delay(t:any){
+  return new Promise((r) => setTimeout(r , t))
+}
+
 async function fetchData() {
+  delay(4000)
   const response = await axios.get('https://dummyjson.com/users')
-  console.log("data" , JSON.stringify(response.data.users[1]))
+  // console.log("data" , JSON.stringify(response.data.users[1]))
   return response.data.users[1]
 }
 
