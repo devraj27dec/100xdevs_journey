@@ -2,13 +2,19 @@ import { PrismaClient } from "@prisma/client/edge";
 import { Hono } from "hono";
 import { sign } from "hono/jwt";
 import { signupSchema , signinSchema } from "@devraj2002/medium-common";
+import { useAuthenticated } from "../lib/middleware";
 
 export const userRouter = new Hono<{
     Bindings: {
         DATABASE_URL:string
         JWT_SECRET:string
+    },
+    Variables:{
+        userId:string
     }
 }>
+
+userRouter.use("*" , useAuthenticated)
 
 userRouter.post("/signup" , async(c) => {
     const prisma = new PrismaClient({
@@ -57,16 +63,13 @@ userRouter.post('/signin' , async(c) => {
         c.status(411)
         return c.json({msg:"Check loggedIn Input"})
     }
-
     try {
-    
         const user = await prisma.user.findUnique({
             where: {
                 email:body.email,
                 password:body.password
             }
         })
-    
         if(!user) {
             c.status(403)
             return c.json({msg:"User Not found!"})
@@ -79,6 +82,25 @@ userRouter.post('/signin' , async(c) => {
         return c.json(token)
     } catch (error) {
         return c.text("Invalid")
-        
     }
+})
+
+userRouter.get('/me' , async(c) => {
+    const prisma = new PrismaClient({
+        datasourceUrl: c.env.DATABASE_URL
+    })
+    const userId = await c.get("userId")
+    const user = await prisma.user.findUnique({
+        where: {
+            id: userId
+        },
+        include: {
+            posts: true
+        }
+    })
+    if (!user) {
+        c.status(404);
+        return c.json({ msg: "User not found" });
+    }
+    return c.json(user);
 })

@@ -22,7 +22,6 @@ export default function Blog() {
   
   return (
     <div>
-      <h2>Blog details</h2>
       <FullBlog blog={blog}/>
     </div>
   )

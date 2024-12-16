@@ -1,12 +1,9 @@
 import { PrismaClient } from "@prisma/client/edge"
 import { withAccelerate } from "@prisma/extension-accelerate"
 import { Hono } from "hono"
-import { verify } from "hono/jwt"
+import {useAuthenticated} from '../lib/middleware'
 import {newBlogSchema , updateBlogSchema} from '@devraj2002/medium-common'
 
-type JwtPayload = {
-    id: string;  
-};
 
 export const blogRouter = new Hono<{
     Bindings: {
@@ -18,20 +15,9 @@ export const blogRouter = new Hono<{
     }
 }>
 
-blogRouter.use("*" , async(c , next) => {
-    const authHeader = c.req.header('Authorization') || "";
-    const user = await (verify(authHeader , c.env.JWT_SECRET!)) as JwtPayload
-    if(user){
-        c.set('userId' , user.id)
-        c.json({
-            msg:"User loggedIn Succesfully"
-        })
-        await next()
-    }else {
-        c.status(403)
-        return c.json({msg:"Please loggedIn first"})
-    }
-})
+
+
+blogRouter.use("*" , useAuthenticated)
 
 blogRouter.post('/new' , async(c , next) =>{
     const prisma = new PrismaClient({

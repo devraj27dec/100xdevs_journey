@@ -1,17 +1,33 @@
-import { Link } from "react-router-dom"
+import { Link, useLocation} from "react-router-dom"
 
-export default function Header() {
+type HeaderProps = {
+  handlepublish: () => void
+}
+
+
+export default function Header({handlepublish}: HeaderProps) {
+
+  const location = useLocation()
+
+  const isOnPublishPage = location.pathname === '/publish'
+  
   return (
-    <div className="flex justify-between border p-2 shadow-md">
-        <div className="text-xl font-extrabold">Medium</div>
-        <div className=" flex p-2 gap-x-2">
-            <Link to={'/blogs'}>
-              <button>Blogs</button>
-            </Link>
+    <header className="border shadow-md bg-white">
+      <div className="container mx-auto p-3 flex items-center justify-between">
+        <Link to={'/'} className="text-xl font-extrabold">Medium</Link>
+        <div className=" flex items-center space-x-4">
+        {isOnPublishPage && (
+            <button 
+              onClick={handlepublish}
+              className="p-2 bg-sky-500 text-white rounded-full px-4 py-2 hover:bg-sky-600 transition">
+                publish
+            </button>
+          )}
             <Link to={'/signup'}>
-              <button>Signup</button>
+              <button className="bg-green-500 text-white rounded-full px-4 py-2 hover:bg-green-600 transition">Signup</button>
             </Link>
         </div>
-    </div>
+      </div>
+    </header>
   )
 }

@@ -18,7 +18,6 @@ export default function Auth({type}: {type: "signup" | "signin"}) {
     password: ""
   });
 
-
   const validateInputs = () => {
     try {
       signupSchema.parse(postInputs);
@@ -34,12 +33,12 @@ export default function Auth({type}: {type: "signup" | "signin"}) {
 
   const handleSubmit = async() => {
     if(!validateInputs) return
-
+    
     const response  = await axios.post(`${BACKEND_URL}/user/${type === "signup" ? "signup" : "signin"}` , postInputs)
     const jwt = response.data
     localStorage.setItem("token" , jwt)
     signupSchema.safeParse(postInputs)
-    
+
     navigate('/blogs')
   }
   return (
