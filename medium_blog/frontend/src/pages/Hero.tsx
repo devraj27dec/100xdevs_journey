@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
 import Header from "../components/Header";
-import { BlogCard } from "../components/BlogCard";
+import { HeroblogCard } from "../components/BlogCard";
 import BlogSkeltons from "../components/BlogSkeltons";
 import { useBlogs } from "../hooks";
+import Footer from "../components/Footer";
 
 export default function Hero() {
 
@@ -20,7 +21,7 @@ export default function Hero() {
 
   return (
     <div className="w-full h-screen mx-auto bg-gray-50">
-      <Header />
+      <Header/>
       <div className="flex flex-col-reverse md:flex-row items-center justify-center md:justify-between px-6 md:px-12 py-12">
         <div className="md:w-1/2 text-center md:text-left space-y-6">
           <h1 className="text-4xl md:text-5xl font-extrabold text-gray-800">
@@ -57,11 +58,10 @@ export default function Hero() {
           </h2>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {blogs.map((blog) => (
+          {blogs.slice(0 , 4).map((blog) => (
             <div key={blog.id} className="flex justify-center">
               <div className="w-full max-w-xs">
-                {/* Fixed Width for BlogCard */}
-                <BlogCard
+                <HeroblogCard
                   id={blog.id}
                   authorName="Anonymous"
                   title={blog.title}
@@ -71,8 +71,12 @@ export default function Hero() {
               </div>
             </div>
           ))}
+          <Link to={'/blogs'}>
+            <div className=" flex p-3 text-2xl">Read more...</div>
+          </Link>
         </div>
       </div>
+      <Footer/>
     </div>
   );
 }

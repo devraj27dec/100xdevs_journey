@@ -1,16 +1,15 @@
 import { Link, useLocation} from "react-router-dom"
 
 type HeaderProps = {
-  handlepublish: () => void
+  handlepublish?: () => void;
 }
-
 
 export default function Header({handlepublish}: HeaderProps) {
 
   const location = useLocation()
 
   const isOnPublishPage = location.pathname === '/publish'
-  
+
   return (
     <header className="border shadow-md bg-white">
       <div className="container mx-auto p-3 flex items-center justify-between">
