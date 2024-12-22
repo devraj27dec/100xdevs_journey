@@ -50,7 +50,6 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Recent Blogs Section */}
       <div className="bg-white py-12 px-6 md:px-12">
         <div className="text-center mb-8">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-800">
