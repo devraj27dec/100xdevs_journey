@@ -1,10 +1,13 @@
-
-
-
+"use client"
+import { signIn, signOut, useSession } from "next-auth/react";
+import Appbar from "../components/Appbar";
 export default function Home() {
+
+  const session = useSession()
+
   return (
-    <div className="flex justify-center bg-red-800 text-yellow-200">
-      Welcome to paytm app
+    <div>
+      <Appbar onSignIn={signIn} onSignOut={signOut} user={session.data?.user}/>
     </div>
   );
 }
